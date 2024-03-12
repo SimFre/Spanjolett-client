@@ -1,30 +1,42 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+// Initialize stuff
+import { ref } from "vue";
+import { useConfigStore } from "@/pinia/ConfigStore.js";
+//import TopBar from "./components/TopBar.vue";
+
+const config = useConfigStore();
+const enabled = ref(0);
+config.init().then((p1) => {
+  console.log("Loaded Config:", p1);
+  enabled.value = true;
+});
+
+//const section = ref("live");
+//async function changeSection(s) {
+//  section.value = s.key;
+//}
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <template v-if="enabled">
+    <router-view />
+    <!-- <div class="grid vertical-align-top">
+            <div class="col-12">
+              <TopBar @section="changeSection" />
+            </div>
+          </div>
+          <div class="col-12 max-h-screen">
+            <div class="grid vertical-align-top">
+              <div class="col-2 max-h-screen overflow-scoll p-0 m-0 border-1">
+                <ChannelListTree :section="section"
+                                 :key="section" />
+              </div>
+              <div class="col p-0 m-0 border-1">
+                <router-view />
+              </div>
+            </div>
+          </div> -->
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+  </template>
+  <p v-else>Loading config...</p>
+</template>

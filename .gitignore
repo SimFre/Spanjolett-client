@@ -26,3 +26,18 @@ src-tauri/resources/config.local.json
 *.sln
 *.sw?
 * copy.*
+
+db/*
+config/*
+* copy.*
+private/*
+*.local.json
+*.local.conf
+
+# Themes
+public/themes/soho-light/
+public/themes/soho-dark/
+public/themes/viva-light/
+public/themes/viva-dark/
+public/themes/mira/
+public/themes/nano/

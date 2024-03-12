@@ -1,0 +1,11 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "htmlWhitespaceSensitivity": "strict",
+  "singleAttributePerLine": true,
+  "printWidth": 80,
+  "proseWrap": "always",
+  "trailingComma": "es5",
+  "semi": true,
+  "html.format.wrapAttributes": "force-aligned"
+}
