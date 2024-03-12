@@ -30,3 +30,8 @@ Web server only saves last 5 minutes of locks codes
 
 "An espagnolette is a locking device, normally mounted on the vertical frame of a French door or casement window. A handle or knob is connected to a metal rod mounted to the surface of the frame, about a metre above the floor. Operating the handle rotates the rod, which has hooks at each end that fit into sockets at the head and sill of the opening.[1] This type of lock is often used on semi-trailer trucks to fasten the rear doors. It can be identified by the use of a round bar, instead of a half-round bar used on a crémone bolt. "
 
+# Security considerations
+
+- https://vuejs.org/guide/best-practices/security
+- https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+- https://www.zaproxy.org/
