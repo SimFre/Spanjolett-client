@@ -23,8 +23,8 @@
         "scope": [
           "$APP",
           "$APP/**",
-          "$DESKTOP/*",
-          "$RESOURCE/resources/*",
+          "$DESKTOP/**",
+          "$RESOURCE/**",
           "$HOME/**"
         ]
       },
@@ -34,7 +34,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Utility",
       "copyright": "",
       "deb": {
         "depends": []

@@ -7,7 +7,7 @@ import { useConfigStore } from "@/pinia/ConfigStore.js";
 const config = useConfigStore();
 const enabled = ref(0);
 config.init().then((p1) => {
-  console.log("Loaded Config:", p1);
+  console.log("Loaded Config:", config.app);
   enabled.value = true;
 });
 
@@ -36,7 +36,6 @@ config.init().then((p1) => {
               </div>
             </div>
           </div> -->
-
   </template>
   <p v-else>Loading config...</p>
 </template>

@@ -9,6 +9,7 @@ export const useConfigStore = defineStore("ConfigStore", {
       menuNodes: ref({
         root: [],
       }),
+      app: {},
       exceptionObject: {},
       exceptionDisplay: false,
       debug: "no data",
@@ -16,52 +17,48 @@ export const useConfigStore = defineStore("ConfigStore", {
   },
   actions: {
     async init() {
-      try {
-        const configFilename = import.meta.env.VITE_CONFIGFILE;
-        const configFilepath = await path.resolveResource(
-          "resources/" + configFilename
-        );
-        console.log("Config File:", configFilename, configFilepath);
+      await this.load();
+    },
 
-        const configFound = await fs.exists(configFilepath);
+    async load() {
+      try {
+        const cfgFile = import.meta.env.VITE_CONFIGFILE;
+        const cfgPath = await path.resolveResource("resources/");
+        const cfgFull = await path.resolveResource("resources/" + cfgFile);
+        console.log("Config File:", cfgFull);
+
+        const configFound = await fs.exists(cfgPath);
 
         /// FIXME THE SCOPE NEEDS TO BE SET.
         if (configFound) {
-          const configDocument = await fs.readTextFile(configFilepath);
-          const config = await JSON.parse(configDocument);
-          console.log("Loaded Config", config);
+          const configDocument = await fs.readTextFile(cfgFull);
+          this.app = await JSON.parse(configDocument);
+          console.log("Loaded Config", cfgFull);
           return true;
         } else {
           console.log("No config file found.");
           return false;
         }
       } catch (err) {
-        console.log("Init Error", err);
+        console.log("Load Error", err);
         return false;
       }
     },
 
     async save() {
       try {
-        const configData = {
-          timestamp: new Date().toISOString(),
-          //providers: JSON.parse(JSON.stringify(this.providers)),
-        };
-        // configData.providers.map((o) => {
-        //   delete o.id;
-        //   delete o.live;
-        //   delete o.vod;
-        //   delete o.series;
-        // });
-        const configFilename = import.meta.env.VITE_CONFIGFILE;
-        const configFilepath = await path.resolveResource(
-          "resources/" + configFilename
-        );
+        const cfgData = this.app;
+        cfgData.timestamp = new Date().toISOString();
+        //providers: JSON.parse(JSON.stringify(this.providers)),
+        const cfgFile = import.meta.env.VITE_CONFIGFILE;
+        const cfgPath = await path.resolveResource("resources/");
+        const cfgFull = await path.resolveResource("resources/" + cfgFile);
+        fs.createDir(cfgPath, { recursive: true });
         const fp = await fs.writeTextFile(
-          configFilepath,
-          JSON.stringify(configData, null, 2)
+          cfgFull,
+          JSON.stringify(cfgData, null, 2)
         );
-        console.log("Wrote Config", configFilepath);
+        console.log("Wrote Config", cfgFull);
         return true;
       } catch (err) {
         console.log("Save Error", err);
