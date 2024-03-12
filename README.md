@@ -35,3 +35,12 @@ Web server only saves last 5 minutes of locks codes
 - https://vuejs.org/guide/best-practices/security
 - https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 - https://www.zaproxy.org/
+
+# Generate keys
+This is how Wireguard supposedly does it. Should work for us too.
+https://docs.rs/openssl/latest/openssl/
+
+`openssl genpkey -algorithm X25519 -outform der -out privatekey.der
+openssl pkey -inform der -in privatekey.der -pubout -outform der -out pubkey.der
+cat pubkey.der | tail -c 32 | base64 > pubkey.txt
+cat privatekey.der | tail -c 32 | base64 > privatekey.txt`
