@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { defineStore, acceptHMRUpdate } from "pinia";
 import * as path from "@tauri-apps/api/path";
-import * as fs from "@tauri-apps/api/fs";
+import * as fs from "@tauri-apps/plugin-fs";
 
 export const useConfigStore = defineStore("ConfigStore", {
   state: () => {

@@ -12,7 +12,7 @@ pkgs.mkShell {
     cargo 
     cargo-tauri # Optional, Only needed if Tauri doesn't work through the traditional way.
     nodejs # Optional, this is for if you have a js frontend
-    vscode.fhs
+    vscodium.fhs
   ];
 
   buildInputs = with pkgs;[
@@ -30,9 +30,26 @@ pkgs.mkShell {
     webkitgtk_4_1
     openssl
     rustc
-    libsoup_2_4 # for tauri v1
-    webkitgtk_4_0 # for tauri v1
+    #libsoup_2_4 
+    webkitgtk_4_0
+  (vscode-with-extensions.override {
+    vscode = vscodium;
+    vscodeExtensions = with vscode-extensions; [
+      bbenoist.nix
+      ms-python.python
+      ms-azuretools.vscode-docker
+      ms-vscode-remote.remote-ssh
+    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      {
+        name = "remote-ssh-edit";
+        publisher = "ms-vscode-remote";
+        version = "0.47.2";
+        sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+      }
     ];
+  })
+    ];
+   # programs.vscode.package = pkgs.vscodium.fhsWithPackages (ps: with ps; [ rustup zlib ]);
   # shellHook = "";
 }
 
