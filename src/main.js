@@ -6,6 +6,7 @@ import { createPinia } from "pinia";
 
 // PrimeVue Base
 import PrimeVue from "primevue/config";
+import Aura from "@primeuix/themes/aura";
 
 // PrimeVue Services
 import ConfirmationService from "primevue/confirmationservice";
@@ -61,6 +62,14 @@ app.use(PrimeVue, {
   locale: {
     firstDayOfWeek: 1,
     dateFormat: "yy-mm-dd",
+  },
+  theme: {
+    preset: Aura,
+    options: {
+      prefix: "p",
+      darkModeSelector: "system",
+      cssLayer: false,
+    },
   },
 });
 app.use(ConfirmationService);
