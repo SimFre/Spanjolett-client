@@ -8,14 +8,13 @@ const data = "https://dn.se";
 </script>
 
 <template>
+  HEJ
   <div className="grid">
     <div className="col-12">
       <div className="card">
-        <QrcodeVue
-          :value="data"
-          size="300"
-          level="H"
-        />
+        <QrcodeVue :value="data"
+                   size="300"
+                   level="H" />
         <hr />
         Config:
         <samp>{{ config }}</samp>

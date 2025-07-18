@@ -52,7 +52,6 @@ import TreeTable from "primevue/treetable";
 //import 'primeflex/primeflex.css'
 //import 'primevue/resources/primevue.min.css' //core css
 //import 'primeicons/primeicons.css' //icons
-import "@/assets/styles.scss";
 
 const app = createApp(App);
 app.use(createPinia());
@@ -67,7 +66,7 @@ app.use(PrimeVue, {
     preset: Aura,
     options: {
       prefix: "p",
-      darkModeSelector: "system",
+      darkModeSelector: ".app-dark",
       cssLayer: false,
     },
   },

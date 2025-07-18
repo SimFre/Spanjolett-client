@@ -10,6 +10,7 @@ pkgs.mkShell {
     pkg-config
     gobject-introspection
     cargo 
+    rustup
     cargo-tauri # Optional, Only needed if Tauri doesn't work through the traditional way.
     nodejs # Optional, this is for if you have a js frontend
     vscodium.fhs
