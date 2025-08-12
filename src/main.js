@@ -16,7 +16,7 @@ import ToastService from "primevue/toastservice";
 import AutoComplete from "primevue/autocomplete";
 import Avatar from "primevue/avatar";
 import Button from "primevue/button";
-import Calendar from "primevue/calendar";
+//import DatePicker from "primevue/datepicker";
 import Checkbox from "primevue/checkbox";
 import Chip from "primevue/chip";
 import Column from "primevue/column";
@@ -51,7 +51,8 @@ import TreeTable from "primevue/treetable";
 //import 'primevue/resources/themes/saga-blue/theme.css' //theme
 //import 'primeflex/primeflex.css'
 //import 'primevue/resources/primevue.min.css' //core css
-//import 'primeicons/primeicons.css' //icons
+import 'primeicons/primeicons.css' //icons
+//import { DatePicker } from "primevue";
 
 const app = createApp(App);
 app.use(createPinia());
@@ -76,7 +77,7 @@ app.use(ToastService);
 app.component("AutoComplete", AutoComplete);
 app.component("Avatar", Avatar);
 app.component("Button", Button);
-app.component("Calendar", Calendar);
+//app.component("DatePicker", DatePicker);
 app.component("Checkbox", Checkbox);
 app.component("Chip", Chip);
 app.component("Column", Column);

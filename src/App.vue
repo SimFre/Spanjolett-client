@@ -18,7 +18,7 @@ config.init().then((p1) => {
 </script>
 
 <template>
-  HeHEHEH
+  <!-- Enable the view if config was loaded -->
   <template v-if="enabled">
     <router-view />
     <!-- <div class="grid vertical-align-top">

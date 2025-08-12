@@ -9,7 +9,10 @@ export const useConfigStore = defineStore("ConfigStore", {
       menuNodes: ref({
         root: [],
       }),
-      app: {},
+      app: {
+        defaultValidationLength: 365,
+        remoteNodes: [],
+      },
       exceptionObject: {},
       exceptionDisplay: false,
       debug: "no data",
@@ -23,13 +26,14 @@ export const useConfigStore = defineStore("ConfigStore", {
     async load() {
       try {
         const cfgFile = import.meta.env.VITE_CONFIGFILE;
-        const cfgPath = await path.resolveResource("resources/");
-        const cfgFull = await path.resolveResource("resources/" + cfgFile);
+        let cfgPath = await path.appLocalDataDir();
+        if (import.meta.env.DEV) {
+          cfgPath = await path.resourceDir();
+        }
+        const cfgFull = await path.resolve(cfgPath, cfgFile);
+        const configFound = await fs.exists(cfgPath);
         console.log("Config File:", cfgFull);
 
-        const configFound = await fs.exists(cfgPath);
-
-        /// FIXME THE SCOPE NEEDS TO BE SET.
         if (configFound) {
           const configDocument = await fs.readTextFile(cfgFull);
           this.app = await JSON.parse(configDocument);
@@ -50,10 +54,20 @@ export const useConfigStore = defineStore("ConfigStore", {
         const cfgData = this.app;
         cfgData.timestamp = new Date().toISOString();
         //providers: JSON.parse(JSON.stringify(this.providers)),
+
         const cfgFile = import.meta.env.VITE_CONFIGFILE;
-        const cfgPath = await path.resolveResource("resources/");
-        const cfgFull = await path.resolveResource("resources/" + cfgFile);
-        fs.createDir(cfgPath, { recursive: true });
+        let cfgPath = await path.appLocalDataDir();
+        if (import.meta.env.DEV) {
+          cfgPath = await path.resourceDir();
+        }
+        const cfgFull = await path.resolve(cfgPath, cfgFile);
+        const configFileFound = await fs.exists(cfgFull);
+        const configPathFound = await fs.exists(cfgPath);
+        console.log("Config File:", cfgFull);
+        
+        if (!configPathFound) {
+          fs.mkdir(cfgPath, { baseDir: fs.BaseDirectory.AppLocalData });
+        }
         const fp = await fs.writeTextFile(
           cfgFull,
           JSON.stringify(cfgData, null, 2)
@@ -62,6 +76,49 @@ export const useConfigStore = defineStore("ConfigStore", {
         return true;
       } catch (err) {
         console.log("Save Error", err);
+        return false;
+      }
+    },
+
+    addNode(nodeId, nodeName) {
+      if (!nodeName || !nodeId) {
+        console.log("Invalid node data", nodeName, nodeId);
+        return false;
+      }
+
+      const d1 = new Date();
+      const validFrom = d1.toISOString();
+
+      const d2 = new Date();
+      d2.setDate(d1.getDate() + this.app.defaultValidationLength);
+      const validTo = d2.toISOString();
+
+      const newNode = {
+        id: nodeId,
+        name: nodeName,
+        permissions: "lock",
+        pubkey: null,
+        lastused: null,
+        validFrom: validFrom,
+        validTo: validTo,
+        active: true,
+      };
+
+      this.app.remoteNodes.push(newNode);
+      console.log("Added new remote node:", newNode);
+      return true;
+    },
+
+    removeNode(nodeId) {
+      const index = this.app.remoteNodes.findIndex(
+        (node) => node.id === nodeId
+      );
+      if (index !== -1) {
+        this.remoteNodes.splice(index, 1);
+        console.log("Removed remote node with ID:", nodeId);
+        return true;
+      } else {
+        console.log("Node with ID not found:", nodeId);
         return false;
       }
     },
